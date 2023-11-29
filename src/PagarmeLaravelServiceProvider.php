@@ -9,11 +9,8 @@ class PagarmeLaravelServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/database/migrations' => dirname(__FILE__) . "../../database/migrations",
-        ], 'pagarme-migrations');
-
-        $this->publishes([
-            __DIR__ . '/Controllers/' => dirname(__FILE__) . "../../database/migrations",
-        ], 'pagarme-controllers');
+            __DIR__ . '/database/migrations' => $this->app->databasePath() . '/migrations',
+            __DIR__ . '/Controllers' => $this->app->basePath() . '/app/Http/Controllers',
+        ], 'laravel-pagarme-migrations');
     }
 }

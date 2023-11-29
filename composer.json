@@ -18,5 +18,12 @@
         "illuminate/support": "^10.34",
         "illuminate/routing": "^10.34",
         "illuminate/database": "^10.34"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Felipe\\LaravelPagarMe\\PagarmeLaravelServiceProvider"
+            ]
+        }
     }
 }
