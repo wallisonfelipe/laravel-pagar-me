@@ -1,0 +1,22 @@
+{
+    "name": "felipe/laravel-pagar-me",
+    "description": "A Pagar.me Wrapper package.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Felipe\\LaravelPagarMe\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "felipe",
+            "email": "wallisonfelipe99@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/support": "^10.34",
+        "illuminate/routing": "^10.34",
+        "illuminate/database": "^10.34"
+    }
+}
