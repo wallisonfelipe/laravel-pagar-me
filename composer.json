@@ -1,5 +1,5 @@
 {
-    "name": "felipe/laravel-pagar-me",
+    "name": "wallisonfelipe/laravel-pagar-me",
     "description": "A Pagar.me Wrapper package.",
     "type": "library",
     "autoload": {
