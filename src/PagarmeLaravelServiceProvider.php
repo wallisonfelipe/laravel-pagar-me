@@ -10,10 +10,10 @@ class PagarmeLaravelServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/database/migrations' => dirname(__FILE__) . "../../database/migrations",
-        ], 'migrations');
+        ], 'pagarme-migrations');
 
         $this->publishes([
             __DIR__ . '/Controllers/' => dirname(__FILE__) . "../../database/migrations",
-        ], 'controllers');
+        ], 'pagarme-controllers');
     }
 }
