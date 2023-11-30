@@ -10,7 +10,14 @@ class PagarmeLaravelServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/database/migrations' => $this->app->databasePath() . '/migrations',
-            __DIR__ . '/Controllers' => $this->app->basePath() . '/app/Http/Controllers',
         ], 'laravel-pagarme-migrations');
+
+        $this->publishes([
+            __DIR__ . '/Controllers' => $this->app->basePath() . '/app/Http/Controllers',
+        ], 'laravel-pagarme-controllers');
+
+        $this->publishes([
+            __DIR__ . '/Models' => $this->app->basePath() . '/app/Models',
+        ], 'laravel-pagarme-models');
     }
 }

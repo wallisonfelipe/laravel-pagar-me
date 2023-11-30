@@ -14,13 +14,13 @@ Instale laravel-pagar-me com composer
 
 Para publicar as migrations use 
 ```bash
-  php artisan vendor:publish --tag=pagarme-migrations
+  php artisan vendor:publish --tag=laravel-pagarme-migrations
 ```
 
 
 Para publicar as controllers use 
 ```bash
-  php artisan vendor:publish --tag=pagarme-controllers
+  php artisan vendor:publish --tag=laravel-pagarme-controllers
 ```
 
 Para usar o módulo PagarmeClient, é necessário ter em sua env a variável "PAGARME_SECRET_KEY"
