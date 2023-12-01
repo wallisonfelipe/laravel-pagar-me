@@ -1,6 +1,6 @@
 # Laravel Pagarme
 
-Esse pacote é apenas um Wrapper das API's da plataforma Pagar.me
+Esse pacote é apenas um Wrapper não oficial das API's da plataforma Pagar.me
 
 
 ## Instalação

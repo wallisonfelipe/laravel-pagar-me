@@ -15,17 +15,6 @@ class PixOrder extends Base
         return $result->getBody()->getContents();
     }
 
-    private function verifyErrors(array $response)
-    {
-        if ($response["status"] == "failed") {
-            if (isset($response["charges"][0]["last_transaction"]["gateway_response"]["errors"][0]["message"])) {
-                throw new \Exception($response["charges"][0]["last_transaction"]["gateway_response"]["errors"][0]["message"]);
-            }
-            
-            throw new \Exception("Erro ao criar pagamento");
-        }
-    }
-
     public function create(
         Client $client,
         int $amountInCents,
