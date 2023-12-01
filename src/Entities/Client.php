@@ -10,8 +10,8 @@ class Client
     public GuzzleClient $client;
 
     private string $id = "";
-    private string $name;
-    private string $email;
+    private string $name = "";
+    private ?string $email = null;
     private string $documentNumber;
     private string $documentType;
     private string $gender;
@@ -26,7 +26,6 @@ class Client
         ?string $email = ""
     )
     {
-      
         $this->client = new GuzzleClient([
             "base_uri" => $this->url,
             "headers" => [
@@ -42,25 +41,28 @@ class Client
     
     }
 
-    public function getId()
+    private function fillEntity()
     {
-        return $this->id;
+        $result = $this->client->get("/core/v5/customers?page=1&size=10&email=". ($this->email ? $this->email : "null"))->getBody()->getContents();
+        $result = $result ? json_decode($result, true) : [];
+        $result = isset($result["data"][0]) ? $result["data"][0] : [];
+
+        $this->id = $result["id"] ?? "";
+        $this->name = $result["name"] ?? "";
+        $this->email = $result["email"] ?? "";
     }
 
-    private function get()
+    public function get()
     {
-        $result = $this->client->get("/core/v5/customers?page=1&size=10&email=$this->email")->getBody()->getContents();
-        $result = $result ? json_decode($result, true) : [];
-
-        if (!isset($result["data"][0])) {
-            return [];
+        if (!$this->id) {
+            $this->fillEntity();
         }
 
-        $result = $result["data"][0];
-
-        $this->id = $result["id"];
-
-        return $result;
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "email" => $this->email,
+        ];
     }
     
     public function create(
@@ -107,6 +109,8 @@ class Client
         $result = json_decode($result->getBody()->getContents(), true);
 
         $this->id = $result["id"];
+        $this->name = $result["name"];
+        $this->email = $result["email"];
 
         return $this;
     }

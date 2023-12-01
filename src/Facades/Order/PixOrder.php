@@ -2,6 +2,7 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Order;
 
+use Felipe\LaravelPagarMe\Dtos\QrcodeResponseDto;
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
 
@@ -31,10 +32,14 @@ class PixOrder extends Base
         string $description,
         ?int $expireTimeInSeconds = 7200,
         ?string $code = ""
-    )
+    ): QrcodeResponseDto
     {
+        if (!isset($client->get()["id"]) || !$client->get()["id"]) {
+            throw new \Exception("Cliente não encontrado");
+        }
+
         $data = [
-            "customer_id" => $client->getId(),
+            "customer_id" => $client->get()["id"],
             "items" => [[
                 "amount"      => $amountInCents,
                 "description" => $description,
@@ -62,18 +67,18 @@ class PixOrder extends Base
 
     public function format(array $response)
     {
-        return [
-            "id"                 => $response["id"],
-            "code"               => $response["code"],
-            "amount"             => $response["amount"],
-            "status"             => $response["status"],
-            "created_at"         => $response["created_at"],
-            "updated_at"         => $response["updated_at"],
-            "qr_code"            => $response["charges"][0]["last_transaction"]["qr_code"],
-            "qr_code_url"        => $response["charges"][0]["last_transaction"]["qr_code"],
-            "qr_code_expires_at" => $response["charges"][0]["last_transaction"]["expires_at"],
-            "qr_code_status"     => $response["charges"][0]["last_transaction"]["status"],
-        ];
+        return new QrcodeResponseDto(
+            $response["id"],
+            $response["code"],
+            $response["amount"],
+            $response["status"],
+            $response["created_at"],
+            $response["updated_at"],
+            $response["charges"][0]["last_transaction"]["qr_code"],
+            $response["charges"][0]["last_transaction"]["qr_code"],
+            $response["charges"][0]["last_transaction"]["expires_at"],
+            $response["charges"][0]["last_transaction"]["status"],
+        );
     }
 
 }
