@@ -3,7 +3,9 @@
 namespace Felipe\LaravelPagarMe;
 
 use Felipe\LaravelPagarMe\Facades\Order;
+use Felipe\LaravelPagarMe\Facades\Order\CheckoutOrder;
 use Felipe\LaravelPagarMe\Facades\Order\PixOrder;
+use Felipe\LaravelPagarMe\Facades\Plans\Plan;
 
 class PagarmeClient {
     public string $apiKey;
@@ -18,6 +20,16 @@ class PagarmeClient {
     public function pixOrder()
     {
         return new PixOrder($this->apiKey);
+    }
+
+    public function checkout(): CheckoutOrder
+    {
+        return new CheckoutOrder($this->apiKey);
+    }
+
+    public function plan(): Plan
+    {
+        return new Plan($this->apiKey);
     }
 
 }
