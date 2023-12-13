@@ -12,8 +12,7 @@ class Plan extends Base
         string $name,
         int $quantity,
         int $priceInCents,
-    ): self
-    {
+    ): self {
         $this->data["items"][] = [
             "name" => $name,
             "quantity" => $quantity,
@@ -32,9 +31,8 @@ class Plan extends Base
         int $amountInCents,
         array $paymentMethods = ["credit_card", "boleto"],
         int $trialDays = 0
-    )
-    {
- 
+    ) {
+
         $result = $this->client->post("/core/v5/plans", [
             "json" => array_merge(
                 [
@@ -53,7 +51,7 @@ class Plan extends Base
             )
         ])->getBody()->getContents();
 
-        return $result;
+        return json_decode($result, true);
     }
 
     public function get(string $planId)
@@ -62,5 +60,4 @@ class Plan extends Base
 
         return json_decode($result, true);
     }
-
 }
