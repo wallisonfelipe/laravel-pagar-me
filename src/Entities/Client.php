@@ -9,7 +9,7 @@ class Client
     private string $url = "https://api.pagar.me";
     public GuzzleClient $client;
 
-    private string $id = "";
+    public string $id = "";
     private string $name = "";
     private ?string $email = null;
     private string $documentNumber;

@@ -69,7 +69,7 @@ class CheckoutOrder extends Base
         ?string $urlCallback =    ""
     ): CheckoutResponseDto {
         if (!isset($client->get()["id"]) || !$client->get()["id"]) {
-            throw new \Exception("Client not found");
+            throw new \Exception("InnerClient not found");
         }
         if (!isset($this->data["payments"][0]["checkout"]["accepted_payment_methods"][0])) {
             throw new \Exception("To create a checkout order, you must specify at least one payment method");
