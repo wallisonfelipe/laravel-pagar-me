@@ -14,10 +14,10 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.8",
-        "illuminate/support": "^10.34",
-        "illuminate/routing": "^10.34",
-        "illuminate/database": "^10.34"
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/support": "^8.0",
+        "illuminate/routing": "^8.0",
+        "illuminate/database": "^8.0"
     },
     "extra": {
         "laravel": {
