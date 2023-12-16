@@ -60,4 +60,12 @@ class Plan extends Base
 
         return json_decode($result, true);
     }
+
+    public function listByName(string $planName)
+    {
+        $result = $this->client->get("/core/v5/plans?name=$planName")->getBody()->getContents();
+
+        return json_decode($result, true);
+    }
+
 }
