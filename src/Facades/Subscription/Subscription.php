@@ -56,6 +56,11 @@ class Subscription extends Base
         if (!$clientId){
             throw new \Exception("Client not created!");
         }
+
+        if (empty($this->billetData) && empty($this->cardData)) {
+            throw new \Exception("Billing form not decided!");
+        }
+        
         if(!$date) {
             $dateFormater = new DateTime();
             $dateFormater->setTime(0, 0, 0);
