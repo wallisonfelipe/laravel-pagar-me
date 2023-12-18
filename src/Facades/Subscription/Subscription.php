@@ -60,12 +60,6 @@ class Subscription extends Base
         if (empty($this->billetData) && empty($this->cardData)) {
             throw new \Exception("Billing form not decided!");
         }
-        
-        if(!$date) {
-            $dateFormater = new DateTime();
-            $dateFormater->setTime(0, 0, 0);
-            $date = $dateFormater->format('Y-m-d\TH:i:s\Z');
-        }
 
         $data = array_merge(
             [
@@ -73,6 +67,7 @@ class Subscription extends Base
                 "customer_id" => $clientId,
                 "start_at" => $date
             ],
+            $date ? ['start_at' => $date] : [],
             $this->billetData,
             $this->cardData
         );
