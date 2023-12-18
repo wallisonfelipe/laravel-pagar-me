@@ -2,11 +2,13 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
+use DateTime;
 use Felipe\LaravelPagarMe\Facades\Base;
 
 class Subscription extends Base
 {
     public array $billetData = [];
+    public array $cardData = [];
     
     public function listAll(
         int $page = 1,
@@ -27,36 +29,47 @@ class Subscription extends Base
         return $this;
     }
 
-    public function create(
-        string $clientId,
-        string $planId,
-        string $paymentMethod = "credit_card",
+    public function withCard(
         string $holderName,
         string $holderDocument,
         string $number,
         int $expirationYear,
         int $expirationMonth,
-        string $cvv,
+        string $cvv
+    ) {
+        $this->cardData["payment_method"] = "credit_card";
+        $this->cardData["card"] = [
+            "holder_name" => $holderName,
+            "holder_document" => $holderDocument,
+            "number" => $number,
+            "exp_year" => $expirationYear,
+            "exp_month" => $expirationMonth,
+            "cvv" => $cvv,
+        ];
+    }
+
+    public function create(
+        string $clientId,
+        string $planId,
+        ?string $date = null
     ) {
         if (!$clientId){
             throw new \Exception("Client not created!");
+        }
+        if(!$date) {
+            $dateFormater = new DateTime();
+            $dateFormater->setTime(0, 0, 0);
+            $date = $dateFormater->format('Y-m-d\TH:i:s\Z');
         }
 
         $data = array_merge(
             [
                 "plan_id" => $planId,
-                "payment_method" => $paymentMethod,
                 "customer_id" => $clientId,
-                "card" => [
-                    "holder_name" => $holderName,
-                    "holder_document" => $holderDocument,
-                    "number" => $number,
-                    "exp_year" => $expirationYear,
-                    "exp_month" => $expirationMonth,
-                    "cvv" => $cvv,
-                ]
+                "start_at" => $date
             ],
-            $this->billetData
+            $this->billetData,
+            $this->cardData
         );
             
         $result = $this->client->post("/core/v5/subscriptions", [
