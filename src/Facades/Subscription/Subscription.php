@@ -2,12 +2,14 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
-use Felipe\LaravelPagarMe\Entities\Client;
+use Carbon\Carbon;
+use DateTime;
 use Felipe\LaravelPagarMe\Facades\Base;
 
 class Subscription extends Base
 {
     public array $billetData = [];
+    public array $cardData = [];
     
     public function listAll(
         int $page = 1,
@@ -28,36 +30,46 @@ class Subscription extends Base
         return $this;
     }
 
-    public function create(
-        Client $client,
-        string $planId,
-        string $paymentMethod = "credit_card",
+    public function withCard(
         string $holderName,
         string $holderDocument,
         string $number,
         int $expirationYear,
         int $expirationMonth,
-        string $cvv,
+        string $cvv
     ) {
-        if (!$client->id){
+        $this->cardData["payment_method"] = "credit_card";
+        $this->cardData["card"] = [
+            "holder_name" => $holderName,
+            "holder_document" => $holderDocument,
+            "number" => $number,
+            "exp_year" => $expirationYear,
+            "exp_month" => $expirationMonth,
+            "cvv" => $cvv,
+        ];
+    }
+
+    public function create(
+        string $clientId,
+        string $planId,
+        ?Carbon $date = null
+    ) {
+        if (!$clientId){
             throw new \Exception("Client not created!");
+        }
+
+        if (empty($this->billetData) && empty($this->cardData)) {
+            throw new \Exception("Billing form not decided!");
         }
 
         $data = array_merge(
             [
                 "plan_id" => $planId,
-                "payment_method" => $paymentMethod,
-                "customer_id" => $client->id,
-                "card" => [
-                    "holder_name" => $holderName,
-                    "holder_document" => $holderDocument,
-                    "number" => $number,
-                    "exp_year" => $expirationYear,
-                    "exp_month" => $expirationMonth,
-                    "cvv" => $cvv,
-                ]
+                "customer_id" => $clientId,
             ],
-            $this->billetData
+            $date ? ['start_at' => $date->startOfDay()->format('Y-m-d\TH:i:s\Z')] : [],
+            $this->billetData,
+            $this->cardData
         );
             
         $result = $this->client->post("/core/v5/subscriptions", [
@@ -67,4 +79,22 @@ class Subscription extends Base
         return json_decode($result, true);
     }
 
+    public function changeBillingDate(
+        string $subscriptionId,
+        string $newDate #"2022-01-25"
+    ) {
+        $result = $this->client->patch("/core/v5/subscriptions/$subscriptionId/billing-date", [
+            "next_billing_at" => $newDate
+        ])->getBody()->getContents();
+
+        return json_decode($result, true);
+    }
+
+    public function cancelSubscription(
+        string $subscriptionId
+    ) {
+        $result = $this->client->delete("/core/v5/subscriptions/$subscriptionId")->getBody()->getContents();
+
+        return json_decode($result, true);
+    }
 }
