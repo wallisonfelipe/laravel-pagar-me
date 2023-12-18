@@ -2,7 +2,6 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
-use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
 
 class Subscription extends Base
@@ -29,7 +28,7 @@ class Subscription extends Base
     }
 
     public function create(
-        Client $client,
+        string $clientId,
         string $planId,
         string $paymentMethod = "credit_card",
         string $holderName,
@@ -39,7 +38,7 @@ class Subscription extends Base
         int $expirationMonth,
         string $cvv,
     ) {
-        if (!$client->id){
+        if (!$clientId){
             throw new \Exception("Client not created!");
         }
 
@@ -47,7 +46,7 @@ class Subscription extends Base
             [
                 "plan_id" => $planId,
                 "payment_method" => $paymentMethod,
-                "customer_id" => $client->id,
+                "customer_id" => $clientId,
                 "card" => [
                     "holder_name" => $holderName,
                     "holder_document" => $holderDocument,
