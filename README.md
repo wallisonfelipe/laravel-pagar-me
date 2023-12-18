@@ -28,3 +28,15 @@ Para usar o módulo PagarmeClient, é necessário ter em sua env a variável "PA
 ```bash
   PAGARME_SECRET_KEY=test_sua_key
 ```
+
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
