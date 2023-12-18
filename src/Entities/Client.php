@@ -70,37 +70,38 @@ class Client
         string $email,
         string $documentNumber,
         string $documentType,
-        string $gender,
-        string $birthdate,
         string $mobilePhone,
         string $homePhone,
+        ?string $gender = null,
+        ?string $birthdate = null,
         ?array $metadata = null,
         ?string $code = null,
     )
     {
-        $data = [
-            "type" => $documentType == "CNPJ" ? "company" : "individual",
-            "name" => $name,
-            "email" => $email,
-            "document_type" => $documentType,
-            "document" => $documentNumber,
-            "gender" => $gender,
-            "birthdate" => $birthdate,
-            "metadata" => $metadata,
-            "code" => $code,
-            "phones" => [
-                "home_phone" => [
-                    "country_code" => "55",
-                    "area_code" => substr($homePhone, 0, 2),
-                    "number" => substr($homePhone, 2)
-                ],
-                "mobile_phone" => [
-                    "country_code" => "55",
-                    "area_code" => substr($mobilePhone, 0, 2),
-                    "number" => substr($mobilePhone, 2)
-                ],
-            ]
-        ];
+        $data = array_merge([
+                "type" => $documentType == "CNPJ" ? "company" : "individual",
+                "name" => $name,
+                "email" => $email,
+                "document_type" => $documentType,
+                "document" => $documentNumber,
+                "metadata" => $metadata,
+                "code" => $code,
+                "phones" => [
+                    "home_phone" => [
+                        "country_code" => "55",
+                        "area_code" => substr($homePhone, 0, 2),
+                        "number" => substr($homePhone, 2)
+                    ],
+                    "mobile_phone" => [
+                        "country_code" => "55",
+                        "area_code" => substr($mobilePhone, 0, 2),
+                        "number" => substr($mobilePhone, 2)
+                    ],
+                ]
+            ],
+            $gender ? ["gender" => $gender]: [],
+            $birthdate ? ["birthdate" => $birthdate]: [],
+        );
 
         $result = $this->client->post("/core/v5/customers", [
             "json" => $data
