@@ -2,6 +2,7 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
+use Carbon\Carbon;
 use DateTime;
 use Felipe\LaravelPagarMe\Facades\Base;
 
@@ -51,7 +52,7 @@ class Subscription extends Base
     public function create(
         string $clientId,
         string $planId,
-        ?string $date = null
+        ?Carbon $date = null
     ) {
         if (!$clientId){
             throw new \Exception("Client not created!");
@@ -65,9 +66,8 @@ class Subscription extends Base
             [
                 "plan_id" => $planId,
                 "customer_id" => $clientId,
-                "start_at" => $date
             ],
-            $date ? ['start_at' => $date] : [],
+            $date ? ['start_at' => $date->startOfDay()->format('Y-m-d\TH:i:s\Z')] : [],
             $this->billetData,
             $this->cardData
         );
