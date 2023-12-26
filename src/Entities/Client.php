@@ -58,7 +58,6 @@ class Client
         ];
     }
     
-
     public function withAddress(
         string $state,
         string $city,
