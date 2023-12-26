@@ -4,6 +4,7 @@ namespace Felipe\LaravelPagarMe;
 
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Card\Card;
+use Felipe\LaravelPagarMe\Facades\Charge\Charges;
 use Felipe\LaravelPagarMe\Facades\Order;
 use Felipe\LaravelPagarMe\Facades\Order\CheckoutOrder;
 use Felipe\LaravelPagarMe\Facades\Order\PixOrder;
@@ -48,6 +49,11 @@ class PagarmeClient {
     public function client()
     {
         return new Client($this->apiKey);
+    }
+
+    public function charge()
+    {
+        return new Charges($this->apiKey);
     }
 
 }
