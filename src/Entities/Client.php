@@ -12,14 +12,7 @@ class Client
     public string $id = "";
     private string $name = "";
     private ?string $email = null;
-    private string $documentNumber;
-    private string $documentType;
-    private string $gender;
-    private string $birthdate;
-    private string $mobilePhone;
-    private string $homePhone;
-    private ?array $metadata = null;
-    private ?string $code = null;
+    private array $address = [];
 
     public function __construct(
         public string $apiKey,
@@ -65,6 +58,28 @@ class Client
         ];
     }
     
+
+    public function withAddress(
+        string $state,
+        string $city,
+        string $zipcode,
+        string $number,
+        string $street,
+        string $neighborhood,
+        ?string $complement = null
+    ) {
+        $this->address = [
+            'country' => 'BR',
+            'state' => $state,
+            'city' => $city,
+            'zip_code' => $zipcode,
+            'line_1' => "$number,$street,$neighborhood",
+            'line_2' => "$complement",
+        ];
+        
+        return $this;
+    }
+
     public function create(
         string $name,
         string $email,
@@ -101,6 +116,7 @@ class Client
             ],
             $gender ? ["gender" => $gender]: [],
             $birthdate ? ["birthdate" => $birthdate]: [],
+            !empty($this->address) ? ['address' => $this->address] : []
         );
 
         $result = $this->client->post("/core/v5/customers", [
