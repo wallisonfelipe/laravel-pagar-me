@@ -26,6 +26,7 @@ class Subscription extends Base
     )
     {
         $this->billetData["payment_method"] = "boleto";
+        $this->billetData["capture"] = true;
         $this->billetData["boleto_due_days"] = $dueDays;
         return $this;
     }
@@ -95,6 +96,35 @@ class Subscription extends Base
     ) {
         $result = $this->client->delete("/core/v5/subscriptions/$subscriptionId")->getBody()->getContents();
 
+        return json_decode($result, true);
+    }
+
+    public function getSubscription(
+        string $subscriptionId
+    ) {
+        $result = $this->client->get("/core/v5/subscriptions/$subscriptionId")->getBody()->getContents();
+        return json_decode($result, true);
+    }
+
+    public function getCicles(
+        string $subscriptionId
+    ) {
+        $result = $this->client->get("/core/v5/subscriptions/$subscriptionId/cycles")->getBody()->getContents();
+        return json_decode($result, true);
+    }
+
+    public function getCicleData(
+        string $subscriptionId,
+        string $cicleId
+    ) {
+        $result = $this->client->get("/core/v5/subscriptions/$subscriptionId/cycles/$cicleId")->getBody()->getContents();
+        return json_decode($result, true);
+    }
+    
+    public function getInvoices(
+        string $subscriptionId
+    ) {
+        $result = $this->client->get("/core/v5/invoices?subscription_id=$subscriptionId&page=1&size=10")->getBody()->getContents();
         return json_decode($result, true);
     }
 }
