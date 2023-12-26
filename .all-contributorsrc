@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "ThalisGaetaCorbee",
+      "name": "Thalis Gaeta",
+      "avatar_url": "https://avatars.githubusercontent.com/u/117653545?v=4",
+      "profile": "https://github.com/ThalisGaetaCorbee",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "laravel-pagar-me",
+  "projectOwner": "wallisonfelipe"
+}
