@@ -64,7 +64,7 @@ class PixOrder extends Base
             $response["created_at"],
             $response["updated_at"],
             $response["charges"][0]["last_transaction"]["qr_code"],
-            $response["charges"][0]["last_transaction"]["qr_code"],
+            $response["charges"][0]["last_transaction"]["qr_code_url"],
             $response["charges"][0]["last_transaction"]["expires_at"],
             $response["charges"][0]["last_transaction"]["status"],
         );
