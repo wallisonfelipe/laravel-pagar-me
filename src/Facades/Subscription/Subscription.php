@@ -82,10 +82,10 @@ class Subscription extends Base
 
     public function changeBillingDate(
         string $subscriptionId,
-        string $newDate #"2022-01-25"
+        Carbon $newDate #"2022-01-25"
     ) {
         $result = $this->client->patch("/core/v5/subscriptions/$subscriptionId/billing-date", [
-            "next_billing_at" => $newDate
+            "next_billing_at" => $newDate->format('Y-m-d')
         ])->getBody()->getContents();
 
         return json_decode($result, true);
