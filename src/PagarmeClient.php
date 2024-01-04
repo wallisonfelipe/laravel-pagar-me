@@ -7,6 +7,7 @@ use Felipe\LaravelPagarMe\Facades\Card\Card;
 use Felipe\LaravelPagarMe\Facades\Charge\Charges;
 use Felipe\LaravelPagarMe\Facades\Order;
 use Felipe\LaravelPagarMe\Facades\Order\CheckoutOrder;
+use Felipe\LaravelPagarMe\Facades\Order\CreditCardOrder;
 use Felipe\LaravelPagarMe\Facades\Order\PixOrder;
 use Felipe\LaravelPagarMe\Facades\Plans\Plan;
 use Felipe\LaravelPagarMe\Facades\Subscription\Subscription;
@@ -24,6 +25,11 @@ class PagarmeClient {
     public function pixOrder()
     {
         return new PixOrder($this->apiKey);
+    }
+
+    public function creditCardOrder()
+    {
+        return new CreditCardOrder($this->apiKey);
     }
 
     public function checkout(): CheckoutOrder

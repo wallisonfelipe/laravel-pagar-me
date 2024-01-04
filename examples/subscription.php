@@ -13,7 +13,7 @@ $client = $instance->client();
 $client->create(
     "Wallison Felipe",
     "wallisonfelipe99@hotmail.com",
-    "06600363126",
+    "08144600037",
     "CPF",
     "male",
     "1999-09-20", //TODO: Ajustar a data
@@ -33,7 +33,7 @@ $subscription = $instance->subscription()->create(
     $plan["id"],
     "credit_card",
     "APRO",
-    "06600363126",
+    "08144600037",
     "4000000000000010",
     2029,
     12,

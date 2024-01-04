@@ -2,12 +2,16 @@
 
 namespace Felipe\LaravelPagarMe\Facades\Order;
 
+use Felipe\LaravelPagarMe\Dtos\CreditCardResponseDto;
 use Felipe\LaravelPagarMe\Dtos\QrcodeResponseDto;
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
 
-class PixOrder extends Base
+class CreditCardOrder extends Base
 {
+    public array $cardData = [];
+
+
     public function listAll()
     {
         $result = $this->client->get("/core/v5/orders");
@@ -15,13 +19,34 @@ class PixOrder extends Base
         return $result->getBody()->getContents();
     }
 
+    public function withCard(
+        string $holderName,
+        string $holderDocument,
+        string $number,
+        int $expirationYear,
+        int $expirationMonth,
+        string $cvv,
+        string $description
+    ) {
+        $this->cardData = [
+            "holder_name" => $holderName,
+            "holder_document" => $holderDocument,
+            "number" => $number,
+            "exp_year" => $expirationYear,
+            "exp_month" => $expirationMonth,
+            "cvv" => $cvv,
+            'statement_descriptor' => $description
+        ];
+
+        return $this;
+    }
+
     public function create(
         Client $client,
         int $amountInCents,
         string $description,
-        ?int $expireTimeInSeconds = 7200,
         ?string $code = ""
-    ): QrcodeResponseDto
+    ): CreditCardResponseDto
     {
         if (!isset($client->get()["id"]) || !$client->get()["id"]) {
             throw new \Exception("Cliente não encontrado");
@@ -36,9 +61,12 @@ class PixOrder extends Base
                 "code"        => $code ?? ""
             ]],
             "payments" => [[
-                "payment_method" => "pix",
-                "pix" => [
-                    "expires_in" => $expireTimeInSeconds
+                "payment_method" => "credit_card",
+                "credit_card" => [
+                    "recurrence" => false,
+                    "installments" => 1,
+                    "statement_descriptor" => $description,
+                    "card" => $this->cardData
                 ]
             ]]
         ];
@@ -56,17 +84,15 @@ class PixOrder extends Base
 
     public function format(array $response)
     {
-        return new QrcodeResponseDto(
+        return new CreditCardResponseDto(
             $response["id"],
             $response["code"],
             $response["amount"],
             $response["status"],
             $response["created_at"],
             $response["updated_at"],
-            $response["charges"][0]["last_transaction"]["qr_code"],
-            $response["charges"][0]["last_transaction"]["qr_code_url"],
-            $response["charges"][0]["last_transaction"]["expires_at"],
-            $response["charges"][0]["last_transaction"]["status"],
+            $response["charges"][0]["last_transaction"]["gateway_response"]["code"],
+            $response["charges"][0]["last_transaction"]["gateway_response"]["errors"],
         );
     }
 
