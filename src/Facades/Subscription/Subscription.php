@@ -127,4 +127,54 @@ class Subscription extends Base
         $result = $this->client->get("/core/v5/invoices?subscription_id=$subscriptionId&page=1&size=10")->getBody()->getContents();
         return json_decode($result, true);
     }
+
+    public function addItem(
+        string $subscriptionId,
+        string $itemName,
+        int $itemQuantity,
+        int $unitPrice,
+        ?string $itemInternalCode = null
+    ) {
+        $result = $this->client->post("/core/v5/subscriptions/$subscriptionId/items", 
+            [ "json" => array_merge([
+                "description" => $itemName,
+                "quantity" => $itemQuantity,
+                "pricing_scheme" => [
+                    "scheme_type" => "unit",
+                    "price" => $unitPrice
+                ]
+                ], $itemInternalCode ? ["code" => $itemInternalCode] : [])
+            ]
+        )->getBody()->getContents();
+        return json_decode($result, true);
+    }
+
+    public function updateItem(
+        string $subscriptionId,
+        string $itemId,
+        string $itemName,
+        int $itemQuantity,
+        int $unitPrice
+    ) {
+        $result = $this->client->put("/core/v5/subscriptions/$subscriptionId/items/$itemId", 
+            ["json" => [
+                "name" => $itemName,
+                "description" => $itemName,
+                "quantity" => $itemQuantity,
+                "pricing_scheme" => [
+                    "price" => $unitPrice,
+                    "scheme_type" => "unit"
+                ]
+            ]]
+        )->getBody()->getContents();
+        return json_decode($result, true);
+    }
+
+    public function deleteItem(
+        string $subscriptionId,
+        string $itemId
+    ) {
+        $result = $this->client->delete("/core/v5/subscriptions/$subscriptionId/items/$itemId")->getBody()->getContents();
+        return json_decode($result, true);
+    }
 }
