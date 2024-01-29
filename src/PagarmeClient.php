@@ -52,9 +52,9 @@ class PagarmeClient {
         return new Card($this->apiKey);
     }
 
-    public function client()
+    public function client(?string $email = null)
     {
-        return new Client($this->apiKey);
+        return new Client($this->apiKey, $email);
     }
 
     public function charge()
