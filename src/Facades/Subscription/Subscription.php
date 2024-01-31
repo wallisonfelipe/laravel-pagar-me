@@ -68,7 +68,7 @@ class Subscription extends Base
                 "plan_id" => $planId,
                 "customer_id" => $clientId,
             ],
-            $date ? ['start_at' => $date->startOfDay()->format('Y-m-d\TH:i:s\Z')] : [],
+            $date ? ['start_at' => $date->startOfDay()->format('Y-m-d')] : [],
             $this->billetData,
             $this->cardData
         );
