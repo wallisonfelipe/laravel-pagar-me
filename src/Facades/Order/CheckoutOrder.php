@@ -99,6 +99,15 @@ class CheckoutOrder extends Base
         return $this->format($result);
     }
 
+    public function cancel(string $orderId)
+    {
+        $result = $this->client->patch("/core/v5/orders/$orderId/closed", [
+            "json" => ['status' => 'canceled']
+        ])->getBody()->getContents();
+
+        return json_decode($result, true);
+    }
+
     public function format(array $response)
     {
 
