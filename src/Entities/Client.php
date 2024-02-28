@@ -2,12 +2,13 @@
 
 namespace Felipe\LaravelPagarMe\Entities;
 
+use Felipe\LaravelPagarMe\Facades\ClientInterface;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client
 {
     private string $url = "https://api.pagar.me";
-    public GuzzleClient $client;
+    public $client;
 
     public string $id = "";
     private string $name = "";
@@ -16,10 +17,11 @@ class Client
 
     public function __construct(
         public string $apiKey,
-        ?string $email = ""
+        ?string $email = "",
+        ?ClientInterface $client = null
     )
     {
-        $this->client = new GuzzleClient([
+        $this->client = $client ?? new GuzzleClient([
             "base_uri" => $this->url,
             "headers" => [
                 "Accept" => "application/json",
