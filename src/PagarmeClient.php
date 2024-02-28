@@ -5,6 +5,7 @@ namespace Felipe\LaravelPagarMe;
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Card\Card;
 use Felipe\LaravelPagarMe\Facades\Charge\Charges;
+use Felipe\LaravelPagarMe\Facades\ClientInterface;
 use Felipe\LaravelPagarMe\Facades\Order;
 use Felipe\LaravelPagarMe\Facades\Order\CheckoutOrder;
 use Felipe\LaravelPagarMe\Facades\Order\CreditCardOrder;
@@ -15,7 +16,7 @@ use Felipe\LaravelPagarMe\Facades\Subscription\Subscription;
 class PagarmeClient {
     public string $apiKey;
 
-    public function __construct(?string $apiKey = null ) {
+    public function __construct(?string $apiKey = null, private ?ClientInterface $client = null ) {
         $this->apiKey = $apiKey ? $apiKey : getenv("PAGARME_SECRET_KEY");
         if (!$this->apiKey) {
             throw new \Exception("Invalid APIKEY");
@@ -54,7 +55,7 @@ class PagarmeClient {
 
     public function client(?string $email = null)
     {
-        return new Client($this->apiKey, $email);
+        return new Client($this->apiKey, $email, $this->client);
     }
 
     public function charge()
