@@ -7,13 +7,14 @@ use GuzzleHttp\Client;
 abstract class Base
 {
     private string $url = "https://api.pagar.me";
-    public Client $client;
+    public $client;
 
     public function __construct(
-        public string $apiKey
+        public string $apiKey,
+        ?ClientInterface $client = null
     )
     {
-        $this->client = new Client([
+        $this->client =  $client ?? new Client([
             "base_uri" => $this->url,
             "headers" => [
                 "Accept" => "application/json",
