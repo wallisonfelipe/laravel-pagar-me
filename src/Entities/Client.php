@@ -125,7 +125,10 @@ class Client
         ]);
         
         $result = json_decode($result->getBody()->getContents(), true);
-
+        
+        if(!isset($result["id"]) || !isset($result["name"]) || !isset($result["email"]) ) {
+            throw new \Exception("Erro ao criar o cliente");
+        }
         $this->id = $result["id"];
         $this->name = $result["name"];
         $this->email = $result["email"];
