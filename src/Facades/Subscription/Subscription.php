@@ -4,6 +4,7 @@ namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
 use Carbon\Carbon;
 use DateTime;
+use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
 
 class Subscription extends Base
@@ -63,10 +64,13 @@ class Subscription extends Base
             throw new \Exception("Billing form not decided!");
         }
 
+        $clientFound = Client::find($clientId, $this->client);
+
         $data = array_merge(
             [
                 "plan_id" => $planId,
                 "customer_id" => $clientId,
+                "customer" => $clientFound
             ],
             $date ? ['start_at' => $date->startOfDay()->format('Y-m-d')] : [],
             $this->billetData,

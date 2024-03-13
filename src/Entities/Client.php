@@ -136,4 +136,13 @@ class Client
         return $this;
     }
 
+    public static function find(string $clientId, $client): array
+    {
+        $result = $client->get("/core/v5/customers/$clientId")->getBody()->getContents();
+        $formated = json_decode($result, true);
+        if(!isset($formated["id"])) {
+            return [];
+        }
+        return $formated;
+    }
 }
