@@ -37,7 +37,7 @@ class Plan extends Base
             "json" => array_merge(
                 [
                     "name" => $name,
-                    "description" => $description,
+                    "description" => substr($description, 0, 13),
                     "shippable" => false,
                     "payment_methods" => $paymentMethods,
                     "installments" => [1],

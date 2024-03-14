@@ -78,7 +78,7 @@ class CheckoutOrder extends Base
         $this->data["customer_id"] = $client->get()["id"];
         $this->data["items"] = [[
             "amount"      => $amountInCents,
-            "description" => $description,
+            "description" => substr($description, 0, 13),
             "quantity"    => 1,
             "code"        => $code ?? ""
         ]];

@@ -31,7 +31,7 @@ class PixOrder extends Base
             "customer_id" => $client->get()["id"],
             "items" => [[
                 "amount"      => $amountInCents,
-                "description" => $description,
+                "description" => substr($description, 0, 13),
                 "quantity"    => 1,
                 "code"        => $code ?? ""
             ]],
