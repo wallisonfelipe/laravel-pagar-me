@@ -66,6 +66,10 @@ class Subscription extends Base
 
         $clientFound = Client::find($clientId, $this->client);
 
+        if(!empty($clientFound) && !empty($this->cardData) && isset($clientFound['address'])){
+            $this->cardData['card']['billing_address'] = $clientFound['address'];
+        }
+
         $data = array_merge(
             [
                 "plan_id" => $planId,
