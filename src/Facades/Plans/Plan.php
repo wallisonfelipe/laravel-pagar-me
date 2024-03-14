@@ -36,12 +36,12 @@ class Plan extends Base
         $result = $this->client->post("/core/v5/plans", [
             "json" => array_merge(
                 [
-                    "name" => $name,
+                    "name" => substr($name, 0, 13),
                     "description" => substr($description, 0, 13),
                     "shippable" => false,
                     "payment_methods" => $paymentMethods,
                     "installments" => [1],
-                    "statement_descriptor" => $statement_descriptor,
+                    "statement_descriptor" => substr($statement_descriptor, 0, 13),
                     "currency" => "BRL",
                     "interval" => "month",
                     "interval_count" => 1, //Número de intervalos de acordo com a propriedade interval entre cada cobrança da assinatura.
