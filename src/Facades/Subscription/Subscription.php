@@ -3,7 +3,6 @@
 namespace Felipe\LaravelPagarMe\Facades\Subscription;
 
 use Carbon\Carbon;
-use DateTime;
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
 
