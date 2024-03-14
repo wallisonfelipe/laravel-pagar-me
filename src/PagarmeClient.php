@@ -25,32 +25,32 @@ class PagarmeClient {
 
     public function pixOrder()
     {
-        return new PixOrder($this->apiKey);
+        return new PixOrder($this->apiKey, $this->client);
     }
 
     public function creditCardOrder()
     {
-        return new CreditCardOrder($this->apiKey);
+        return new CreditCardOrder($this->apiKey, $this->client);
     }
 
     public function checkout(): CheckoutOrder
     {
-        return new CheckoutOrder($this->apiKey);
+        return new CheckoutOrder($this->apiKey, $this->client);
     }
 
     public function plan(): Plan
     {
-        return new Plan($this->apiKey);
+        return new Plan($this->apiKey, $this->client);
     }
 
     public function subscription()
     {
-        return new Subscription($this->apiKey);
+        return new Subscription($this->apiKey, $this->client);
     }
 
     public function card()
     {
-        return new Card($this->apiKey);
+        return new Card($this->apiKey, $this->client);
     }
 
     public function client(?string $email = null)
@@ -60,7 +60,7 @@ class PagarmeClient {
 
     public function charge()
     {
-        return new Charges($this->apiKey);
+        return new Charges($this->apiKey, $this->client);
     }
 
 }
