@@ -146,7 +146,7 @@ class Subscription extends Base
     ) {
         $result = $this->client->post("/core/v5/subscriptions/$subscriptionId/items", 
             [ "json" => array_merge([
-                "description" => $itemName,
+                "description" => substr($itemName, 0, 13),
                 "quantity" => $itemQuantity,
                 "pricing_scheme" => [
                     "scheme_type" => "unit",
@@ -168,7 +168,7 @@ class Subscription extends Base
         $result = $this->client->put("/core/v5/subscriptions/$subscriptionId/items/$itemId", 
             ["json" => [
                 "name" => $itemName,
-                "description" => $itemName,
+                "description" => substr($itemName, 0, 13),
                 "quantity" => $itemQuantity,
                 "pricing_scheme" => [
                     "price" => $unitPrice,

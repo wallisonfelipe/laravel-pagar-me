@@ -56,7 +56,7 @@ class CreditCardOrder extends Base
             "customer_id" => $client->get()["id"],
             "items" => [[
                 "amount"      => $amountInCents,
-                "description" => $description,
+                "description" => substr($description, 0, 13),
                 "quantity"    => 1,
                 "code"        => $code ?? ""
             ]],
@@ -65,7 +65,7 @@ class CreditCardOrder extends Base
                 "credit_card" => [
                     "recurrence" => false,
                     "installments" => 1,
-                    "statement_descriptor" => $description,
+                    "statement_descriptor" => substr($description, 0, 13),
                     "card" => $this->cardData
                 ]
             ]]
