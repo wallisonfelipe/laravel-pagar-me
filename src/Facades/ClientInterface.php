@@ -6,6 +6,8 @@ interface ClientInterface
 {
     public function get(string $url, ?array $params): ClientInterface;
     public function post(string $url, ?array $params): ClientInterface;
+    public function delete(string $url, ?array $params): ClientInterface;
+    public function put(string $url, ?array $params): ClientInterface;
     public function getBody(): ClientInterface|string;
     public function getContents(): string;
 }
