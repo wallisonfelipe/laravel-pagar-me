@@ -30,7 +30,8 @@ class Plan extends Base
         string $statement_descriptor = "Cobrança", #Texto que vai aparecer na fatura
         int $amountInCents,
         array $paymentMethods = ["credit_card", "boleto"],
-        int $trialDays = 0
+        int $trialDays = 0,
+        int $installments = 1,
     ) {
 
         $result = $this->client->post("/core/v5/plans", [
@@ -40,7 +41,7 @@ class Plan extends Base
                     "description" => substr($description, 0, 13),
                     "shippable" => false,
                     "payment_methods" => $paymentMethods,
-                    "installments" => [1],
+                    "installments" => [$installments],
                     "statement_descriptor" => substr($statement_descriptor, 0, 13),
                     "currency" => "BRL",
                     "interval" => "month",
