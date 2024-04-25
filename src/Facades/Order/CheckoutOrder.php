@@ -66,7 +66,9 @@ class CheckoutOrder extends Base
         string $description,
         ?int $expireTimeInSeconds = 7200,
         ?string $code = "",
-        ?string $urlCallback =    ""
+        ?string $urlCallback =    "",
+        ?int $quantity = null,
+        ?string $clientId = null
     ): CheckoutResponseDto {
         if (!isset($client->get()["id"]) || !$client->get()["id"]) {
             throw new \Exception("InnerClient not found");
@@ -75,11 +77,11 @@ class CheckoutOrder extends Base
             throw new \Exception("To create a checkout order, you must specify at least one payment method");
         }
         $this->data["payments"][0]["success_url"] = $urlCallback;
-        $this->data["customer_id"] = $client->get()["id"];
+        $this->data["customer_id"] = $clientId ?? $client->get()["id"];
         $this->data["items"] = [[
             "amount"      => $amountInCents,
             "description" => substr($description, 0, 13),
-            "quantity"    => 1,
+            "quantity"    => $quantity ?? 1,
             "code"        => $code ?? ""
         ]];
         $this->data["payments"][0]["checkout"]["expires_in"] = $expireTimeInSeconds;
