@@ -53,7 +53,8 @@ class Subscription extends Base
     public function create(
         string $clientId,
         string $planId,
-        ?Carbon $date = null
+        ?Carbon $date = null,
+        ?array $metadata = null
     ) {
         if (!$clientId){
             throw new \Exception("Client not created!");
@@ -77,7 +78,8 @@ class Subscription extends Base
             ],
             $date ? ['start_at' => $date->startOfDay()->format('Y-m-d')] : [],
             $this->billetData,
-            $this->cardData
+            $this->cardData,
+            $metadata ? ["metadata" => $metadata] : []
         );
             
         $result = $this->client->post("/core/v5/subscriptions", [
