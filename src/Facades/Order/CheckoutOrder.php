@@ -6,14 +6,15 @@ use Carbon\Carbon;
 use Felipe\LaravelPagarMe\Dtos\CheckoutResponseDto;
 use Felipe\LaravelPagarMe\Entities\Client;
 use Felipe\LaravelPagarMe\Facades\Base;
+use Felipe\LaravelPagarMe\Facades\ClientInterface;
 
 class CheckoutOrder extends Base
 {
     private array $data;
 
-    public function __construct(string $apiKey)
+    public function __construct(string $apiKey, ?ClientInterface $client = null )
     {
-        parent::__construct($apiKey);
+        parent::__construct($apiKey, $client);
         $this->data = [
             "customer_id" => "",
             "items" => [],
